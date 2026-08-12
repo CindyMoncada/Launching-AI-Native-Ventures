@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Launching AI-Native Ventures. Course Materials</title>
+<!--
+  ============================================================================
+  HOW TO ORGANIZE THE REPOSITORY
+  ============================================================================
+  Place this index.html in the repository root, and put the files in these
+  folders next to it (create the folders exactly as named):
+
+    materials/session-1/   ...   materials/session-9/
+    materials/bibliography/
+
+  Put each file listed below into its session folder, using the exact
+  filename shown. The download links are built automatically from the
+  filenames in the DATA block further down, and are URL-encoded for you,
+  so spaces, apostrophes and parentheses in filenames work on GitHub Pages.
+
+  To add, remove or rename a material later, edit the DATA array only.
+  ============================================================================
+-->
+<style>
+  :root{
+    --navy:#000B32; --navy2:#0C1A55; --blue:#224BB9; --coral:#F1595C;
+    --gold:#F9B937; --green:#00AE88; --lav:#EDEDFB; --ink:#22243A;
+    --mute:#6E6F86; --line:#E1E1F0; --bg:#F6F6FC; --white:#FFFFFF;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:Arial, Helvetica, "Helvetica Neue", sans-serif;
+    line-height:1.5;
+  }
+  a{color:inherit;}
+
+  /* ---------- header ---------- */
+  header{
+    background:linear-gradient(115deg,var(--navy2) 0%,var(--navy2) 40%,var(--navy) 40%,var(--navy) 100%);
+    color:var(--white); padding:34px 24px 40px;
+  }
+  .head-inner{max-width:1000px; margin:0 auto;}
+  .wordmark{
+    font-family:Georgia,"Times New Roman",serif; font-weight:700;
+    letter-spacing:1px; font-size:18px; color:#fff; opacity:.95;
+  }
+  header h1{
+    margin:18px 0 6px; font-size:34px; line-height:1.15; font-weight:700;
+  }
+  .kicker{
+    display:inline-block; color:var(--coral); font-weight:700;
+    letter-spacing:2px; font-size:12px; margin-top:6px;
+  }
+  header .sub{color:#C9C9E6; font-size:15px; margin-top:10px; max-width:640px;}
+  .stats{margin-top:18px; font-size:13px; color:#AEB0D6;}
+  .stats strong{color:#fff;}
+
+  /* ---------- search ---------- */
+  .toolbar{
+    position:sticky; top:0; z-index:10;
+    background:var(--white); border-bottom:1px solid var(--line);
+    padding:14px 24px;
+  }
+  .toolbar-inner{max-width:1000px; margin:0 auto; display:flex; gap:12px; align-items:center;}
+  #search{
+    flex:1; padding:12px 14px; font-size:15px; font-family:inherit;
+    border:1px solid var(--line); border-radius:10px; background:#fff; color:var(--ink);
+    outline:none;
+  }
+  #search:focus{border-color:var(--blue); box-shadow:0 0 0 3px rgba(34,75,185,.12);}
+  .count{font-size:13px; color:var(--mute); white-space:nowrap;}
+
+  /* ---------- layout ---------- */
+  main{max-width:1000px; margin:0 auto; padding:28px 24px 60px;}
+
+  section.session{
+    background:var(--white); border:1px solid var(--line); border-radius:14px;
+    padding:22px 24px; margin-bottom:20px;
+  }
+  .session-head{display:flex; align-items:center; gap:14px; margin-bottom:6px;}
+  .snum{
+    flex:none; width:44px; height:44px; border-radius:10px; background:var(--navy);
+    color:#fff; font-weight:700; font-size:18px; display:flex; align-items:center; justify-content:center;
+  }
+  .stitle{font-size:20px; font-weight:700; color:var(--navy); margin:0;}
+  .slabel{font-size:12px; letter-spacing:2px; font-weight:700; color:var(--coral); text-transform:uppercase;}
+
+  ul.items{list-style:none; margin:14px 0 0; padding:0;}
+  li.item{
+    display:flex; align-items:center; gap:14px; padding:12px 12px;
+    border-radius:10px; border:1px solid transparent; text-decoration:none; color:var(--ink);
+    transition:background .12s, border-color .12s;
+  }
+  li.item + li.item{margin-top:4px;}
+  a.item:hover{background:var(--lav); border-color:var(--line);}
+  a.item:focus-visible{outline:2px solid var(--blue); outline-offset:2px;}
+
+  .badge{
+    flex:none; width:52px; text-align:center; font-size:11px; font-weight:700;
+    letter-spacing:.5px; color:#fff; padding:5px 0; border-radius:6px;
+  }
+  .badge.pdf{background:var(--coral);}
+  .badge.docx{background:var(--blue);}
+  .badge.file{background:var(--mute);}
+
+  .item-body{flex:1; min-width:0;}
+  .fname{font-size:15px; color:var(--navy); font-weight:600; word-break:break-word;}
+  .tag{
+    display:inline-block; font-size:11px; font-weight:700; letter-spacing:.4px;
+    padding:2px 8px; border-radius:999px; margin-left:0; margin-top:4px;
+  }
+  .tag.handout{background:rgba(241,89,92,.14); color:#B23036;}
+  .tag.preread{background:rgba(34,75,185,.12); color:#1B3C97;}
+  .tag.reference{background:rgba(0,174,136,.14); color:#0A6A55;}
+
+  .dl{flex:none; color:var(--mute); font-size:12px; font-weight:700; letter-spacing:.5px;}
+  a.item:hover .dl{color:var(--blue);}
+
+  /* ---------- bibliography ---------- */
+  section.biblio{
+    background:var(--lav); border:1px solid #DADAF2; border-radius:14px;
+    padding:22px 24px; margin-top:8px;
+  }
+  section.biblio .stitle{color:var(--navy);}
+
+  .no-results{display:none; text-align:center; color:var(--mute); padding:40px 0; font-size:15px;}
+
+  footer{
+    border-top:1px solid var(--line); background:#fff;
+    padding:26px 24px; color:var(--mute); font-size:13px;
+  }
+  .foot-inner{max-width:1000px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;}
+  .foot-inner .brand{font-family:Georgia,serif; font-weight:700; color:var(--navy);}
+
+  noscript div{max-width:1000px; margin:20px auto; padding:16px; background:#fff3f3; border:1px solid var(--coral); border-radius:10px; color:#8a2a2f;}
+
+  @media (max-width:560px){
+    header h1{font-size:26px;}
+    .toolbar-inner{flex-direction:column; align-items:stretch;}
+    .count{text-align:right;}
+    .badge{width:46px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="head-inner">
+    <div class="wordmark">esade</div>
+    <div class="kicker">BACHELOR IN BUSINESS AND ARTIFICIAL INTELLIGENCE</div>
+    <h1>Launching AI-Native Ventures</h1>
+    <p class="sub">Course materials. Download your student handout and pre-reads for each session below. Use the search box to find any file by name.</p>
+    <div class="stats" id="stats"></div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <input id="search" type="search" placeholder="Search materials by name, author or session..." aria-label="Search materials">
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<noscript>
+  <div>This page builds its download list with JavaScript so links stay correctly encoded. Please enable JavaScript, or browse the <code>materials/</code> folders directly in the repository.</div>
+</noscript>
+
+<main id="app">
+  <div class="no-results" id="noResults">No materials match your search.</div>
+</main>
+
+<footer>
+  <div class="foot-inner">
+    <span class="brand">Esade. Do Good. Do Better.</span>
+    <span>Materials organized by session. Files live in the <code>materials/</code> folders of this repository.</span>
+  </div>
+</footer>
+
+<script>
+/* ============================================================================
+   DATA. Edit this block to add, remove or rename materials.
+   - "title" is the session name shown on the page.
+   - Each item: { f: "exact file name", kind: "handout" | "preread" }
+   - Files are expected at:  materials/session-<n>/<file name>
+   - Bibliography files at:   materials/bibliography/<file name>
+   Links are URL-encoded automatically, so keep the real file names here.
+   ============================================================================ */
+const SESSIONS = [
+  { n:1, title:"Rewrite the Startup Rules", items:[
+    { f:"01 Session Student Handout.docx", kind:"handout" },
+  ]},
+  { n:2, title:"Fall in Love with the Problem", items:[
+    { f:"02 Session Student Handout.docx", kind:"handout" },
+    { f:"2025 AI Engineering by Chip Huyen chapter 6 AI as a judge section.pdf", kind:"preread" },
+    { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta ch6 the replicator crisis.pdf", kind:"preread" },
+    { f:"2026 The Founder\u2019s Playbook_ Building an AI-Native Startup by Anthropic ch 3 idea stage.pdf", kind:"preread" },
+  ]},
+  { n:3, title:"AI as a Co-Founder", items:[
+    { f:"03 Session Student Handout.docx", kind:"handout" },
+    { f:"2024 Building Effective AI Agents by Anthropic.pdf", kind:"preread" },
+    { f:"2025 AI Engineering by Chip Huyen sections sampling, structured outputs and hallucination.pdf", kind:"preread" },
+    { f:"2026 The Founder\u2019s Playbook_ Building an AI-Native Startup by Anthropic Chapter 2 What it means to be a founder is changing.pdf", kind:"preread" },
+  ]},
+  { n:4, title:"Start Building Your MVP", items:[
+    { f:"04 Session Student Handout.docx", kind:"handout" },
+    { f:"2025 AI Engineering by Chip Huyen section AI-pipeline-orchestration.pdf", kind:"preread" },
+    { f:"2025 Building an AI-native engineering team by OpenAI.pdf", kind:"preread" },
+    { f:"2026 The Founder\u2019s Playbook_ Building an AI-Native Startup by Anthropic chapter 4 MVP stage.pdf", kind:"preread" },
+  ]},
+  { n:5, title:"How to Survive When Code Is Free", items:[
+    { f:"05 Session Student Handout.docx", kind:"handout" },
+    { f:"2020 The New Business of AI (and How It\u2019s Different From Traditional Software) at Andreessen Horowitz.pdf", kind:"preread" },
+    { f:"2025 AI Engineering by Chip Huyen chapter 8 data quality.pdf", kind:"preread" },
+    { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta chapter 6 replicator crisis.pdf", kind:"preread" },
+    { f:"2026 The Jevons Paradox of AI- Why Cheaper Intelligence Creates Bigger Markets by Felix (Redrob).pdf", kind:"preread" },
+  ]},
+  { n:6, title:"The Hackathon Sprint", items:[
+    { f:"06 Session Student Handout.docx", kind:"handout" },
+    { f:"2024 Building Effective AI Agents by Anthropic section parallel-workflow and orchestrator patterns.pdf", kind:"preread" },
+  ]},
+  { n:7, title:"Products That Learn and Adapt", items:[
+    { f:"07 Session Student Handout.docx", kind:"handout" },
+    { f:"2025 AI Engineering by Chip Huyen on explicit and implicit feedback and when to collect it.pdf", kind:"preread" },
+    { f:"2025 AI Engineering by Chip Huyen on the reasons not to finetune.pdf", kind:"preread" },
+    { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta on living-products and learning-loop .pdf", kind:"preread" },
+    { f:"2026 The Founder\u2019s Playbook_ Building an AI-Native Startup by Anthropic on compounding-data and flywheel .pdf", kind:"preread" },
+  ]},
+  { n:8, title:"Play Responsibly", items:[
+    { f:"08 Session Student Handout.docx", kind:"handout" },
+    { f:"2024 Artificial Intelligence Risk Management Framework_ Generative Artificial Intelligence Profile by Chloe Autio, Reva Schwartz, Jesse Dunietz et al. at US NIST on main risks.pdf", kind:"preread" },
+    { f:"2025 AI Engineering by Chip Huyen on prompt attacks, indirect prompt injection, and guardrail implementation.pdf", kind:"preread" },
+  ]},
+  { n:9, title:"Product-Market Fit and Pitch Prep", items:[
+    { f:"09 Session Student Handout.docx", kind:"handout" },
+    { f:"2025 AI Engineering by Chip Huyen on tying evaluation metrics to business metrics.pdf", kind:"preread" },
+    { f:"2025 Mastering product-market fit- A detailed playbook for AI founders at Bessemer Venture Partners .pdf", kind:"preread" },
+    { f:"2026 The Founder\u2019s Playbook_ Building an AI-Native Startup by Anthropic on the PMF measurement-framework.pdf", kind:"preread" },
+  ]},
+];
+
+const BIBLIOGRAPHY = [
+  { f:"2025 AI Engineering by Chip Huyen.pdf" },
+  { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta" },
+  { f:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic.pdf" },
+];
+
+/* ---------- render ---------- */
+function ext(name){
+  const m = name.toLowerCase().match(/\.([a-z0-9]+)$/);
+  return m ? m[1] : "";
+}
+function badgeClass(e){ return e === "pdf" ? "pdf" : (e === "docx" || e === "doc") ? "docx" : "file"; }
+function badgeText(e){ return e ? e.toUpperCase() : "FILE"; }
+
+function makeItem(folder, item, kindLabelMap){
+  const e = ext(item.f);
+  const a = document.createElement("a");
+  a.className = "item";
+  a.href = folder + "/" + encodeURIComponent(item.f);
+  a.setAttribute("download", "");
+  a.dataset.search = (item.f + " " + (item.kind || "")).toLowerCase();
+
+  const badge = document.createElement("span");
+  badge.className = "badge " + badgeClass(e);
+  badge.textContent = badgeText(e);
+
+  const body = document.createElement("span");
+  body.className = "item-body";
+  const fname = document.createElement("span");
+  fname.className = "fname";
+  fname.textContent = item.f;
+  body.appendChild(fname);
+  if(item.kind && kindLabelMap[item.kind]){
+    const tag = document.createElement("span");
+    tag.className = "tag " + item.kind;
+    tag.textContent = kindLabelMap[item.kind];
+    body.appendChild(document.createElement("br"));
+    body.appendChild(tag);
+  }
+
+  const dl = document.createElement("span");
+  dl.className = "dl";
+  dl.textContent = "DOWNLOAD";
+
+  a.appendChild(badge); a.appendChild(body); a.appendChild(dl);
+  return a;
+}
+
+const KIND = { handout:"Handout", preread:"Pre-read", reference:"Reference" };
+const app = document.getElementById("app");
+const noResults = document.getElementById("noResults");
+let totalFiles = 0;
+
+SESSIONS.forEach(s => {
+  const sec = document.createElement("section");
+  sec.className = "session";
+  sec.dataset.session = s.n;
+
+  const head = document.createElement("div");
+  head.className = "session-head";
+  const num = document.createElement("div");
+  num.className = "snum"; num.textContent = s.n;
+  const wrap = document.createElement("div");
+  const lbl = document.createElement("div");
+  lbl.className = "slabel"; lbl.textContent = "Session " + s.n;
+  const t = document.createElement("h2");
+  t.className = "stitle"; t.textContent = s.title;
+  wrap.appendChild(lbl); wrap.appendChild(t);
+  head.appendChild(num); head.appendChild(wrap);
+  sec.appendChild(head);
+
+  const ul = document.createElement("ul");
+  ul.className = "items";
+  s.items.forEach(item => {
+    const li = document.createElement("li");
+    li.className = "item-wrap";
+    const a = makeItem("materials/session-" + s.n, item, KIND);
+    a.classList.add("item");
+    li.appendChild(a);
+    li.dataset.search = a.dataset.search + " session " + s.n + " " + s.title.toLowerCase();
+    ul.appendChild(li);
+    totalFiles++;
+  });
+  sec.appendChild(ul);
+  app.insertBefore(sec, noResults);
+});
+
+/* bibliography */
+const bib = document.createElement("section");
+bib.className = "biblio session";
+bib.dataset.session = "bib";
+const bh = document.createElement("div");
+bh.className = "session-head";
+const bnum = document.createElement("div");
+bnum.className = "snum"; bnum.style.background = "#00AE88"; bnum.textContent = "\u2605";
+const bwrap = document.createElement("div");
+const blbl = document.createElement("div");
+blbl.className = "slabel"; blbl.textContent = "Core texts";
+const bt = document.createElement("h2");
+bt.className = "stitle"; bt.textContent = "Course bibliography";
+bwrap.appendChild(blbl); bwrap.appendChild(bt);
+bh.appendChild(bnum); bh.appendChild(bwrap);
+bib.appendChild(bh);
+const bul = document.createElement("ul");
+bul.className = "items";
+BIBLIOGRAPHY.forEach(item => {
+  const li = document.createElement("li");
+  li.className = "item-wrap";
+  const a = makeItem("materials/bibliography", { f:item.f, kind:"reference" }, KIND);
+  a.classList.add("item");
+  li.appendChild(a);
+  li.dataset.search = a.dataset.search + " bibliography core texts reference";
+  bul.appendChild(li);
+  totalFiles++;
+});
+bib.appendChild(bul);
+app.insertBefore(bib, noResults);
+
+/* stats + count */
+document.getElementById("stats").innerHTML =
+  "<strong>" + SESSIONS.length + "</strong> sessions &nbsp;&middot;&nbsp; <strong>" + totalFiles + "</strong> files available";
+const countEl = document.getElementById("count");
+function updateCount(visible){ countEl.textContent = visible + " of " + totalFiles + " shown"; }
+updateCount(totalFiles);
+
+/* ---------- search ---------- */
+const search = document.getElementById("search");
+search.addEventListener("input", () => {
+  const q = search.value.trim().toLowerCase();
+  let visible = 0;
+  document.querySelectorAll("section.session").forEach(sec => {
+    let anyVisible = false;
+    sec.querySelectorAll("li.item-wrap").forEach(li => {
+      const match = !q || li.dataset.search.indexOf(q) !== -1;
+      li.style.display = match ? "" : "none";
+      if(match){ anyVisible = true; visible++; }
+    });
+    sec.style.display = anyVisible ? "" : "none";
+  });
+  noResults.style.display = visible ? "none" : "block";
+  updateCount(visible);
+});
+</script>
+</body>
+</html>
