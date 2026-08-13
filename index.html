@@ -8,16 +8,14 @@
   ============================================================================
   HOW TO ORGANIZE THE REPOSITORY
   ============================================================================
-  Place this index.html in the repository root, and put the files in these
-  folders next to it (create the folders exactly as named):
+  Place this index.html in the repository root, and upload ALL the material
+  files into that same root, right next to index.html (no sub-folders).
 
-    materials/session-1/   ...   materials/session-9/
-    materials/bibliography/
-
-  Put each file listed below into its session folder, using the exact
-  filename shown. The download links are built automatically from the
-  filenames in the DATA block further down, and are URL-encoded for you,
-  so spaces, apostrophes and parentheses in filenames work on GitHub Pages.
+  Each file must be named EXACTLY as listed in the DATA block further down.
+  The download links are built automatically from those filenames and are
+  URL-encoded for you, so spaces, apostrophes and parentheses work on
+  GitHub Pages. A link only works if a file with that exact name exists in
+  the root, so match every name character for character.
 
   To add, remove or rename a material later, edit the DATA array only.
   ============================================================================
@@ -165,7 +163,7 @@
 </div>
 
 <noscript>
-  <div>This page builds its download list with JavaScript so links stay correctly encoded. Please enable JavaScript, or browse the <code>materials/</code> folders directly in the repository.</div>
+  <div>This page builds its download list with JavaScript so links stay correctly encoded. Please enable JavaScript, or browse the files directly in the repository.</div>
 </noscript>
 
 <main id="app">
@@ -175,7 +173,7 @@
 <footer>
   <div class="foot-inner">
     <span class="brand">Esade. Do Good. Do Better.</span>
-    <span>Materials organized by session. Files live in the <code>materials/</code> folders of this repository.</span>
+    <span>Materials organized by session. Files are stored in the root of this repository.</span>
   </div>
 </footer>
 
@@ -184,8 +182,8 @@
    DATA. Edit this block to add, remove or rename materials.
    - "title" is the session name shown on the page.
    - Each item: { f: "exact file name", kind: "handout" | "preread" }
-   - Files are expected at:  materials/session-<n>/<file name>
-   - Bibliography files at:   materials/bibliography/<file name>
+   - All files are expected in the repository ROOT, next to index.html.
+   - Session files and bibliography files all sit in the same root folder.
    Links are URL-encoded automatically, so keep the real file names here.
    ============================================================================ */
 const SESSIONS = [
@@ -255,11 +253,11 @@ function ext(name){
 function badgeClass(e){ return e === "pdf" ? "pdf" : (e === "docx" || e === "doc") ? "docx" : "file"; }
 function badgeText(e){ return e ? e.toUpperCase() : "FILE"; }
 
-function makeItem(folder, item, kindLabelMap){
+function makeItem(item, kindLabelMap){
   const e = ext(item.f);
   const a = document.createElement("a");
   a.className = "item";
-  a.href = folder + "/" + encodeURIComponent(item.f);
+  a.href = encodeURIComponent(item.f); // files sit next to index.html in the repo root
   a.setAttribute("download", "");
   a.dataset.search = (item.f + " " + (item.kind || "")).toLowerCase();
 
@@ -317,7 +315,7 @@ SESSIONS.forEach(s => {
   s.items.forEach(item => {
     const li = document.createElement("li");
     li.className = "item-wrap";
-    const a = makeItem("materials/session-" + s.n, item, KIND);
+    const a = makeItem(item, KIND);
     a.classList.add("item");
     li.appendChild(a);
     li.dataset.search = a.dataset.search + " session " + s.n + " " + s.title.toLowerCase();
@@ -349,7 +347,7 @@ bul.className = "items";
 BIBLIOGRAPHY.forEach(item => {
   const li = document.createElement("li");
   li.className = "item-wrap";
-  const a = makeItem("materials/bibliography", { f:item.f, kind:"reference" }, KIND);
+  const a = makeItem({ f:item.f, kind:"reference" }, KIND);
   a.classList.add("item");
   li.appendChild(a);
   li.dataset.search = a.dataset.search + " bibliography core texts reference";
