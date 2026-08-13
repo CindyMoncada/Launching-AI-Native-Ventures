@@ -181,13 +181,14 @@
 /* ============================================================================
    DATA. Edit this block to add, remove or rename materials.
    - "title" is the session name shown on the page.
-   - Each item: { f: "exact file name", kind: "handout" | "preread" }
+   - Each item: { f: "real file name", d: "name shown on page" (optional), kind: ... }
    - All files are expected in the repository ROOT, next to index.html.
    - Session files and bibliography files all sit in the same root folder.
-   - The files are named "Founders" (no apostrophe), but the display names
-     below keep "Founders". The link builder removes the apostrophe
-     automatically, so leave these display names as they are.
-   Links are URL-encoded automatically, so keep the real file names here.
+   - "f" is the exact file name on disk and is what the link points to.
+     "d" is optional; when present it is the text shown on the page. The
+     Playbook items use "d" to display "Founder\u2019s" while "f" links to the
+     actual "Founders" file. Items without "d" just show "f".
+   Links are URL-encoded automatically, so keep the real file names in "f".
    ============================================================================ */
 const SESSIONS = [
   { n:1, title:"Rewrite the Startup Rules", items:[
@@ -197,19 +198,19 @@ const SESSIONS = [
     { f:"02 Session Student Handout.docx", kind:"handout" },
     { f:"2025 AI Engineering by Chip Huyen chapter 6 AI as a judge section.pdf", kind:"preread" },
     { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta ch6 the replicator crisis.pdf", kind:"preread" },
-    { f:"2026 The Founders Playbook_ Building an AI-Native Startup by Anthropic ch 3 idea stage.pdf", kind:"preread" },
+    { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic ch 3 idea stage.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic ch 3 idea stage.pdf", kind:"preread" },
   ]},
   { n:3, title:"AI as a Co-Founder", items:[
     { f:"03 Session Student Handout.docx", kind:"handout" },
     { f:"2024 Building Effective AI Agents by Anthropic.pdf", kind:"preread" },
     { f:"2025 AI Engineering by Chip Huyen sections sampling, structured outputs and hallucination.pdf", kind:"preread" },
-    { f:"2026 The Founders Playbook_ Building an AI-Native Startup by Anthropic Chapter 2 What it means to be a founder is changing.pdf", kind:"preread" },
+    { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic Chapter 2 What it means to be a founder is changing.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic Chapter 2 What it means to be a founder is changing.pdf", kind:"preread" },
   ]},
   { n:4, title:"Start Building Your MVP", items:[
     { f:"04 Session Student Handout.docx", kind:"handout" },
     { f:"2025 AI Engineering by Chip Huyen section AI-pipeline-orchestration.pdf", kind:"preread" },
     { f:"2025 Building an AI-native engineering team by OpenAI.pdf", kind:"preread" },
-    { f:"2026 The Founders Playbook_ Building an AI-Native Startup by Anthropic chapter 4 MVP stage.pdf", kind:"preread" },
+    { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic chapter 4 MVP stage.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic chapter 4 MVP stage.pdf", kind:"preread" },
   ]},
   { n:5, title:"How to Survive When Code Is Free", items:[
     { f:"05 Session Student Handout.docx", kind:"handout" },
@@ -227,7 +228,7 @@ const SESSIONS = [
     { f:"2025 AI Engineering by Chip Huyen on explicit and implicit feedback and when to collect it.pdf", kind:"preread" },
     { f:"2025 AI Engineering by Chip Huyen on the reasons not to finetune.pdf", kind:"preread" },
     { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta on living-products and learning-loop .pdf", kind:"preread" },
-    { f:"2026 The Founders Playbook_ Building an AI-Native Startup by Anthropic on compounding-data and flywheel .pdf", kind:"preread" },
+    { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic on compounding-data and flywheel .pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic on compounding-data and flywheel .pdf", kind:"preread" },
   ]},
   { n:8, title:"Play Responsibly", items:[
     { f:"08 Session Student Handout.docx", kind:"handout" },
@@ -238,14 +239,14 @@ const SESSIONS = [
     { f:"09 Session Student Handout.docx", kind:"handout" },
     { f:"2025 AI Engineering by Chip Huyen on tying evaluation metrics to business metrics.pdf", kind:"preread" },
     { f:"2025 Mastering product-market fit- A detailed playbook for AI founders at Bessemer Venture Partners .pdf", kind:"preread" },
-    { f:"2026 The Founders Playbook_ Building an AI-Native Startup by Anthropic on the PMF measurement-framework.pdf", kind:"preread" },
+    { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic on the PMF measurement-framework.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic on the PMF measurement-framework.pdf", kind:"preread" },
   ]},
 ];
 
 const BIBLIOGRAPHY = [
   { f:"2025 AI Engineering by Chip Huyen.pdf" },
   { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta" },
-  { f:"2026 The Founders Playbook: Building an AI-Native Startup by Anthropic.pdf" },
+  { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic.pdf" },
 ];
 
 /* ---------- render ---------- */
@@ -260,10 +261,11 @@ function makeItem(item, kindLabelMap){
   const e = ext(item.f);
   const a = document.createElement("a");
   a.className = "item";
-  // Actual files are named "Founders" (no apostrophe); the page still shows "Founders".
-  a.href = encodeURIComponent(item.f.replace(/Founder[\u2019']s/g, "Founders"));
+  // "f" is the real file name (used for the link). "d" is the display name
+  // shown on the page (kept as "Founder\u2019s" for the Playbook files).
+  a.href = encodeURIComponent(item.f);
   a.setAttribute("download", "");
-  a.dataset.search = (item.f + " " + (item.kind || "")).toLowerCase();
+  a.dataset.search = ((item.d || "") + " " + item.f + " " + (item.kind || "")).toLowerCase();
 
   const badge = document.createElement("span");
   badge.className = "badge " + badgeClass(e);
@@ -273,7 +275,7 @@ function makeItem(item, kindLabelMap){
   body.className = "item-body";
   const fname = document.createElement("span");
   fname.className = "fname";
-  fname.textContent = item.f;
+  fname.textContent = item.d || item.f;
   body.appendChild(fname);
   if(item.kind && kindLabelMap[item.kind]){
     const tag = document.createElement("span");
