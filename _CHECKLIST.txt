@@ -1,0 +1,58 @@
+PUT EACH FILE IN ITS FOLDER USING THE EXACT NAME SHOWN.
+(Do not rename these; they must match the links in index.html.)
+You can delete this file and the .gitkeep files once every folder has its real files.
+
+session-1/
+  01 Session Student Handout.docx
+
+session-2/
+  02 Session Student Handout.docx
+  2025 AI Engineering by Chip Huyen chapter 6 AI as a judge section.pdf
+  2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta ch6 the replicator crisis.pdf
+  2026 The Founder’s Playbook_ Building an AI-Native Startup by Anthropic ch 3 idea stage.pdf
+
+session-3/
+  03 Session Student Handout.docx
+  2024 Building Effective AI Agents by Anthropic.pdf
+  2025 AI Engineering by Chip Huyen sections sampling, structured outputs and hallucination.pdf
+  2026 The Founder’s Playbook_ Building an AI-Native Startup by Anthropic Chapter 2 What it means to be a founder is changing.pdf
+
+session-4/
+  04 Session Student Handout.docx
+  2025 AI Engineering by Chip Huyen section AI-pipeline-orchestration.pdf
+  2025 Building an AI-native engineering team by OpenAI.pdf
+  2026 The Founder’s Playbook_ Building an AI-Native Startup by Anthropic chapter 4 MVP stage.pdf
+
+session-5/
+  05 Session Student Handout.docx
+  2020 The New Business of AI (and How It’s Different From Traditional Software) at Andreessen Horowitz.pdf
+  2025 AI Engineering by Chip Huyen chapter 8 data quality.pdf
+  2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta chapter 6 replicator crisis.pdf
+  2026 The Jevons Paradox of AI- Why Cheaper Intelligence Creates Bigger Markets by Felix (Redrob).pdf
+
+session-6/
+  06 Session Student Handout.docx
+  2024 Building Effective AI Agents by Anthropic section parallel-workflow and orchestrator patterns.pdf
+
+session-7/
+  07 Session Student Handout.docx
+  2025 AI Engineering by Chip Huyen on explicit and implicit feedback and when to collect it.pdf
+  2025 AI Engineering by Chip Huyen on the reasons not to finetune.pdf
+  2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta on living-products and learning-loop .pdf
+  2026 The Founder’s Playbook_ Building an AI-Native Startup by Anthropic on compounding-data and flywheel .pdf
+
+session-8/
+  08 Session Student Handout.docx
+  2024 Artificial Intelligence Risk Management Framework_ Generative Artificial Intelligence Profile by Chloe Autio, Reva Schwartz, Jesse Dunietz et al. at US NIST on main risks.pdf
+  2025 AI Engineering by Chip Huyen on prompt attacks, indirect prompt injection, and guardrail implementation.pdf
+
+session-9/
+  09 Session Student Handout.docx
+  2025 AI Engineering by Chip Huyen on tying evaluation metrics to business metrics.pdf
+  2025 Mastering product-market fit- A detailed playbook for AI founders at Bessemer Venture Partners .pdf
+  2026 The Founder’s Playbook_ Building an AI-Native Startup by Anthropic on the PMF measurement-framework.pdf
+
+bibliography/
+  2025 AI Engineering by Chip Huyen.pdf
+  2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta          (this one has no file extension in your list)
+  2026 The Founder’s Playbook: Building an AI-Native Startup by Anthropic.pdf   (the ":" is not allowed in Windows/Mac filenames, see note)
