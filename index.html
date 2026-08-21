@@ -184,14 +184,14 @@
    DATA. Edit this block to add, remove or rename materials.
    - "title" is the session name shown on the page.
    - Each item: { f: "real file name", d: "name shown on page" (optional), kind: ... }
-   - For an external link (e.g. a video), use { url: "https://...", d: "title",
-     badge: "VIDEO" } instead of "f". It opens in a new tab, is not downloaded.
    - All files are expected in the repository ROOT, next to index.html.
    - Session files and bibliography files all sit in the same root folder.
    - "f" is the exact file name on disk and is what the link points to.
      "d" is optional; when present it is the text shown on the page. The
      Playbook items use "d" to display "Founder\u2019s" while "f" links to the
      actual "Founders" file. Items without "d" just show "f".
+   - For an external link (e.g. a video) use { url:"https://...", d:"Title",
+     badge:"VIDEO" } instead of "f". It opens in a new tab and is not downloaded.
    Links are URL-encoded automatically, so keep the real file names in "f".
    ============================================================================ */
 const SESSIONS = [
@@ -268,9 +268,8 @@ function makeItem(item, kindLabelMap){
   const e = isLink ? "" : ext(item.f);
   const a = document.createElement("a");
   a.className = "item";
-  // "f" is the real file name (used for the link) for downloadable files.
-  // "url" is an external web address (opened in a new tab, not downloaded).
-  // "d" is the display name shown on the page (kept as "Founder\u2019s" for the Playbook files).
+  // "f" is a local file name (encoded, downloaded). "url" is an external link
+  // (opened in a new tab). "d" is the optional display name shown on the page.
   if(isLink){
     a.href = item.url;
     a.setAttribute("target", "_blank");
@@ -282,9 +281,8 @@ function makeItem(item, kindLabelMap){
   a.dataset.search = ((item.d || "") + " " + (item.f || "") + " " + (item.url || "") + " " + (item.kind || "")).toLowerCase();
 
   const badge = document.createElement("span");
-  const bText = item.badge ? item.badge : (isLink ? "LINK" : badgeText(e));
   badge.className = "badge " + (item.badge ? item.badge.toLowerCase() : (isLink ? "video" : badgeClass(e)));
-  badge.textContent = bText;
+  badge.textContent = item.badge ? item.badge : (isLink ? "VIDEO" : badgeText(e));
 
   const body = document.createElement("span");
   body.className = "item-body";
@@ -302,7 +300,7 @@ function makeItem(item, kindLabelMap){
 
   const dl = document.createElement("span");
   dl.className = "dl";
-  dl.textContent = isLink ? (bText === "VIDEO" ? "WATCH" : "OPEN") : "DOWNLOAD";
+  dl.textContent = isLink ? "WATCH" : "DOWNLOAD";
 
   a.appendChild(badge); a.appendChild(body); a.appendChild(dl);
   return a;
@@ -368,7 +366,7 @@ bul.className = "items";
 BIBLIOGRAPHY.forEach(item => {
   const li = document.createElement("li");
   li.className = "item-wrap";
-  const a = makeItem({ f:item.f, kind:"reference" }, KIND);
+  const a = makeItem({ f:item.f, url:item.url, d:item.d, badge:item.badge, kind:"reference" }, KIND);
   a.classList.add("item");
   li.appendChild(a);
   li.dataset.search = a.dataset.search + " bibliography core texts reference";
@@ -380,7 +378,7 @@ app.insertBefore(bib, noResults);
 
 /* stats + count */
 document.getElementById("stats").innerHTML =
-  "<strong>" + SESSIONS.length + "</strong> sessions &nbsp;&middot;&nbsp; <strong>" + totalFiles + "</strong> files available";
+  "<strong>" + SESSIONS.length + "</strong> sessions &nbsp;&middot;&nbsp; <strong>" + totalFiles + "</strong> materials available";
 const countEl = document.getElementById("count");
 function updateCount(visible){ countEl.textContent = visible + " of " + totalFiles + " shown"; }
 updateCount(totalFiles);
