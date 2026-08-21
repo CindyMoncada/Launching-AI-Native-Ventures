@@ -103,6 +103,8 @@
   .badge.pdf{background:var(--coral);}
   .badge.docx{background:var(--blue);}
   .badge.file{background:var(--mute);}
+  .badge.video{background:var(--navy);}
+  .badge.link{background:var(--navy);}
 
   .item-body{flex:1; min-width:0;}
   .fname{font-size:15px; color:var(--navy); font-weight:600; word-break:break-word;}
@@ -182,6 +184,8 @@
    DATA. Edit this block to add, remove or rename materials.
    - "title" is the session name shown on the page.
    - Each item: { f: "real file name", d: "name shown on page" (optional), kind: ... }
+   - For an external link (e.g. a video), use { url: "https://...", d: "title",
+     badge: "VIDEO" } instead of "f". It opens in a new tab, is not downloaded.
    - All files are expected in the repository ROOT, next to index.html.
    - Session files and bibliography files all sit in the same root folder.
    - "f" is the exact file name on disk and is what the link points to.
@@ -248,6 +252,7 @@ const BIBLIOGRAPHY = [
   { f:"2025 AI Engineering by Chip Huyen part 2.pdf" },
   { f:"2025 THE AI-NATIVE STARTUP HANDBOOK  By Nitin Gupta" },
   { f:"2026 The Founders Playbook Building an AI Native Startup by Anthropic.pdf", d:"2026 The Founder\u2019s Playbook: Building an AI-Native Startup by Anthropic.pdf" },
+  { url:"https://www.youtube.com/watch?v=Z3JyAqh4ixg", d:"What Is AI-Native? The Founder\u2019s Guide (CRV, video)", badge:"VIDEO" },
 ];
 
 /* ---------- render ---------- */
@@ -259,24 +264,33 @@ function badgeClass(e){ return e === "pdf" ? "pdf" : (e === "docx" || e === "doc
 function badgeText(e){ return e ? e.toUpperCase() : "FILE"; }
 
 function makeItem(item, kindLabelMap){
-  const e = ext(item.f);
+  const isLink = !!item.url;                 // external link (e.g. a video) vs a local file
+  const e = isLink ? "" : ext(item.f);
   const a = document.createElement("a");
   a.className = "item";
-  // "f" is the real file name (used for the link). "d" is the display name
-  // shown on the page (kept as "Founder\u2019s" for the Playbook files).
-  a.href = encodeURIComponent(item.f);
-  a.setAttribute("download", "");
-  a.dataset.search = ((item.d || "") + " " + item.f + " " + (item.kind || "")).toLowerCase();
+  // "f" is the real file name (used for the link) for downloadable files.
+  // "url" is an external web address (opened in a new tab, not downloaded).
+  // "d" is the display name shown on the page (kept as "Founder\u2019s" for the Playbook files).
+  if(isLink){
+    a.href = item.url;
+    a.setAttribute("target", "_blank");
+    a.setAttribute("rel", "noopener noreferrer");
+  } else {
+    a.href = encodeURIComponent(item.f);
+    a.setAttribute("download", "");
+  }
+  a.dataset.search = ((item.d || "") + " " + (item.f || "") + " " + (item.url || "") + " " + (item.kind || "")).toLowerCase();
 
   const badge = document.createElement("span");
-  badge.className = "badge " + badgeClass(e);
-  badge.textContent = badgeText(e);
+  const bText = item.badge ? item.badge : (isLink ? "LINK" : badgeText(e));
+  badge.className = "badge " + (item.badge ? item.badge.toLowerCase() : (isLink ? "video" : badgeClass(e)));
+  badge.textContent = bText;
 
   const body = document.createElement("span");
   body.className = "item-body";
   const fname = document.createElement("span");
   fname.className = "fname";
-  fname.textContent = item.d || item.f;
+  fname.textContent = item.d || item.f || item.url;
   body.appendChild(fname);
   if(item.kind && kindLabelMap[item.kind]){
     const tag = document.createElement("span");
@@ -288,7 +302,7 @@ function makeItem(item, kindLabelMap){
 
   const dl = document.createElement("span");
   dl.className = "dl";
-  dl.textContent = "DOWNLOAD";
+  dl.textContent = isLink ? (bText === "VIDEO" ? "WATCH" : "OPEN") : "DOWNLOAD";
 
   a.appendChild(badge); a.appendChild(body); a.appendChild(dl);
   return a;
